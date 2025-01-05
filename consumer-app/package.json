@@ -1,0 +1,19 @@
+{
+  "name": "kafka-consumer",
+  "version": "1.0.0",
+  "main": "consumer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "kafka-node": "^5.0.0",
+    "kafkajs": "^2.2.4",
+    "mongodb": "^6.12.0",
+    "uuid": "^11.0.3"
+  }
+}

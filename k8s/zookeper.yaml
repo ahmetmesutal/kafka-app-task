@@ -1,0 +1,135 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zookeeper
+  namespace: default
+  labels:
+    app: zookeeper
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zookeeper
+  template:
+    metadata:
+      labels:
+        app: zookeeper
+    spec:
+      containers:
+      - name: zookeeper
+        image: bitnami/zookeeper:latest
+        ports:
+        - containerPort: 2181
+        env:
+        - name: ALLOW_ANONYMOUS_LOGIN
+          value: "yes"
+        volumeMounts:
+        - name: zookeeper-data
+          mountPath: /bitnami/zookeeper
+        livenessProbe:
+          tcpSocket:
+            port: 2181
+          initialDelaySeconds: 10
+          periodSeconds: 5
+        readinessProbe:
+          tcpSocket:
+            port: 2181
+          initialDelaySeconds: 5
+          periodSeconds: 3
+      - name: prometheus-sidecar
+        image: prom/prometheus:latest
+        ports:
+          - containerPort: 9090
+        volumeMounts:
+          - name: prometheus-config
+            mountPath: /etc/prometheus/
+      volumes:
+      - name: zookeeper-data
+        emptyDir: {}
+      - name: prometheus-config
+        configMap:
+          name: prometheus-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zookeeper
+  namespace: default
+spec:
+  selector:
+    app: zookeeper
+  ports:
+  - name: zookeper
+    protocol: TCP
+    port: 2181
+    targetPort: 2181
+  - name: prometheus
+    protocol: TCP
+    port: 9090
+    targetPort: 9090
+  type: ClusterIP
+
+
+
+
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: zookeeper
+#   namespace: default
+#   labels:
+#     app: zookeeper
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: zookeeper
+#   template:
+#     metadata:
+#       labels:
+#         app: zookeeper
+#     spec:
+#       containers:
+#       - name: zookeeper
+#         image: bitnami/zookeeper:latest
+#         ports:
+#         - containerPort: 2181
+#         env:
+#         - name: ALLOW_ANONYMOUS_LOGIN
+#           value: "yes"
+#         volumeMounts:
+#         - name: zookeeper-data
+#           mountPath: /bitnami/zookeeper
+#       - name: prometheus-sidecar
+#         image: prom/prometheus:latest
+#         ports:
+#           - containerPort: 9090
+#         volumeMounts:
+#           - name: prometheus-config
+#             mountPath: /etc/prometheus/
+#       volumes:
+#       - name: zookeeper-data
+#         emptyDir: {}
+#       - name: prometheus-config
+#         configMap:
+#           name: prometheus-config
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: zookeeper
+#   namespace: default
+# spec:
+#   selector:
+#     app: zookeeper
+#   ports:
+#   - name: zookeper
+#     protocol: TCP
+#     port: 2181
+#     targetPort: 2181
+#   - name: prometheus
+#     protocol: TCP
+#     port: 9090
+#     targetPort: 9090
+#   type: ClusterIP
+

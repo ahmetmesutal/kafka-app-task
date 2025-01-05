@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  kafka-app-task:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2025-01-05T18:43:00.412098+03:00"
+    description: A Helm chart for Kubernetes
+    digest: a5a3e7f663324c7127587e4e3dbcb8c87999b56760d72c4fa8de0f9e5b10b6e6
+    name: kafka-app-task
+    type: application
+    urls:
+    - kafka-app-task-0.1.0.tgz
+    version: 0.1.0
+generated: "2025-01-05T18:43:00.411641+03:00"
