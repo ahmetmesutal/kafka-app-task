@@ -2,7 +2,7 @@
 # 1. Scalability (Ölçeklenebilirlik)
 Horizontal Pod Autoscaler (HPA) kullandım.
 HPA ile pod sayısı otomatik olarak artırılıyor.
-CPU ve bellek kullanımına göre ölçekleme sağladım.
+CPU kullanımına göre ölçekleme sağladım.
 
 # 2. Fault Tolerance (Hata Toleransı)
 Pod restart durumları için Liveness ve Readiness Probes ekledim. Mongo ve Kafka tek node dan oluşuyor. Konteyner ortamında barındırılmasını uygun görmediğim için tek node yaptım. Normalde sanal makine içerisinde cluster yapısında olmalı.
