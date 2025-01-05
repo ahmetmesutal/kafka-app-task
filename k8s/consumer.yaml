@@ -26,11 +26,6 @@ spec:
               port: 8082
             initialDelaySeconds: 10
             periodSeconds: 30
-          readinessProbe:
-            tcpSocket:
-              port: 8082
-            initialDelaySeconds: 5
-            periodSeconds: 10
         - name: prometheus-sidecar
           image: prom/prometheus:latest
           ports:
@@ -65,58 +60,3 @@ spec:
       port: 9090
       targetPort: 9090
   type: ClusterIP
-
-
-
-# apiVersion: apps/v1
-# kind: Deployment
-# metadata:
-#   name: consumer-app
-# spec:
-#   replicas: 1
-#   selector:
-#     matchLabels:
-#       app: consumer-app
-#   template:
-#     metadata:
-#       labels:
-#         app: consumer-app
-#     spec:
-#       containers:
-#         - name: consumer-app
-#           image: "mesutal/consumer-app:latest"
-#           imagePullPolicy: Always
-#           envFrom:
-#             - configMapRef:
-#                 name: consumer-app-config
-#           ports:
-#             - containerPort: 8082
-#         - name: prometheus-sidecar
-#           image: prom/prometheus:latest
-#           ports:
-#             - containerPort: 9090
-#           volumeMounts:
-#             - name: prometheus-config
-#               mountPath: /etc/prometheus/
-#       volumes:
-#         - name: prometheus-config
-#           configMap:
-#             name: prometheus-config
-# ---
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: consumer-app
-# spec:
-#   selector:
-#     app: consumer-app
-#   ports:
-#     - name: http
-#       protocol: TCP
-#       port: 8082
-#       targetPort: 8082
-#     - name: prometheus
-#       protocol: TCP
-#       port: 9090
-#       targetPort: 9090
-#   type: ClusterIP
